@@ -6,7 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Mundialísticamente | Productos y Noticias de Fútbol</title>
-
+  
+<meta name="description" content="Noticias de fútbol, productos recomendados y ofertas deportivas. Descubre balones, botines y más.">
+<meta name="keywords" content="futbol, noticias futbol, productos futbol, balones, botines, deportes">
+<meta name="author" content="Mundialísticamente">
+  
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -327,7 +331,7 @@ async function fetchNews(){
 
 const API_KEY="pub_633372cd23894aec852d33f74e389d3d"
 
-const url=`https://newsdata.io/api/1/news?apikey=${API_KEY}&q=futbol&language=es`
+const url=`https://newsdata.io/api/1/news?apikey=${API_KEY}&q=futbol&language=es&category=sports`
 
 try{
 
@@ -390,3 +394,4 @@ setInterval(fetchNews,600000)
 
 </body>
 </html>
+
