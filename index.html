@@ -284,29 +284,37 @@ async function fetchNews(){
 
 try{
 
-const rssUrl="https://news.google.com/rss/search?q=futbol&hl=es&gl=ES&ceid=ES:es"
+const rss="https://news.google.com/rss/search?q=futbol&hl=es&gl=ES&ceid=ES:es"
+const url="https://api.allorigins.win/raw?url="+encodeURIComponent(rss)
 
-const api="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(rssUrl)
+const res=await fetch(url)
+const text=await res.text()
 
-const res=await fetch(api)
-const data=await res.json()
+const parser=new DOMParser()
+const xml=parser.parseFromString(text,"text/xml")
+
+const items=xml.querySelectorAll("item")
 
 const grid=document.getElementById("newsGrid")
 
 grid.innerHTML=""
 
-data.items.slice(0,6).forEach(article=>{
+items.forEach((item,index)=>{
 
-let img="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=60"
+if(index>=6) return
+
+const title=item.querySelector("title").textContent
+const link=item.querySelector("link").textContent
+const desc=item.querySelector("description").textContent
 
 const card=document.createElement("div")
 card.className="news-card"
 
 card.innerHTML=`
-<img src="${img}">
-<h3>${article.title}</h3>
-<p>${article.description.replace(/<[^>]*>?/gm,'').substring(0,120)}...</p>
-<a href="${article.link}" target="_blank">Leer noticia completa</a>
+<img src="https://source.unsplash.com/800x600/?soccer">
+<h3>${title}</h3>
+<p>${desc.substring(0,120)}...</p>
+<a href="${link}" target="_blank">Leer noticia</a>
 `
 
 grid.appendChild(card)
@@ -340,6 +348,7 @@ fetchNews()
 
 </body>
 </html>
+
 
 
 
