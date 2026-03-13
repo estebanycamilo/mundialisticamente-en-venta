@@ -12,6 +12,8 @@
 <meta name="author" content="Mundialísticamente">
 <meta name="robots" content="index, follow">
 
+<link rel="canonical" href="https://estebanycamilo.github.io/mundialisticamente-en-venta/">  
+
 <meta property="og:title" content="Mundialísticamente | Productos y Noticias de Fútbol">
 <meta property="og:description" content="Noticias de fútbol, productos recomendados y ofertas deportivas.">
 <meta property="og:type" content="website">
@@ -340,13 +342,13 @@ card.className="card"
 
 card.innerHTML=`
 
-<img src="${p.img}">
+<img src="${p.img}" loading="lazy">
 
 <h3>${p.name}</h3>
 
 <p>${p.desc}</p>
 
-<a class="buy-btn" href="${p.link}" target="_blank" rel="noopener noreferrer">
+<a class="buy-btn" href="${p.link}" target="_blank" rel="nofollow noopener noreferrer">
 Ver en Amazon
 </a>
 
@@ -409,7 +411,7 @@ card.className="news-card"
 
 card.innerHTML=`
 
-<img src="${img}">
+<img src="${img}" loading="lazy">
 
 <h3>${article.title}</h3>
 
@@ -446,5 +448,6 @@ setInterval(fetchNews,600000)
 
 </body>
 </html>
+
 
 
