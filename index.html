@@ -282,39 +282,30 @@ grid.appendChild(card)
 
 async function fetchNews(){
 
+const API_KEY = "pub_633372cd23894aec852d33f74e389d3d"
+
+const url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&category=sports&language=es`
+
 try{
 
-const rss="https://news.google.com/rss/search?q=futbol&hl=es&gl=ES&ceid=ES:es"
-const url="https://api.allorigins.win/raw?url="+encodeURIComponent(rss)
+const res = await fetch(url)
+const data = await res.json()
 
-const res=await fetch(url)
-const text=await res.text()
-
-const parser=new DOMParser()
-const xml=parser.parseFromString(text,"text/xml")
-
-const items=xml.querySelectorAll("item")
-
-const grid=document.getElementById("newsGrid")
-
+const grid = document.getElementById("newsGrid")
 grid.innerHTML=""
 
-items.forEach((item,index)=>{
+data.results.slice(0,6).forEach(article=>{
 
-if(index>=6) return
-
-const title=item.querySelector("title").textContent
-const link=item.querySelector("link").textContent
-const desc=item.querySelector("description").textContent
+let img = article.image_url || "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=60"
 
 const card=document.createElement("div")
 card.className="news-card"
 
 card.innerHTML=`
-<img src="https://source.unsplash.com/800x600/?soccer">
-<h3>${title}</h3>
-<p>${desc.substring(0,120)}...</p>
-<a href="${link}" target="_blank">Leer noticia</a>
+<img src="${img}">
+<h3>${article.title}</h3>
+<p>${article.description ? article.description.substring(0,120) : ""}...</p>
+<a href="${article.link}" target="_blank">Leer noticia completa</a>
 `
 
 grid.appendChild(card)
@@ -323,7 +314,7 @@ grid.appendChild(card)
 
 }catch(e){
 
-document.getElementById("newsGrid").innerHTML=
+document.getElementById("newsGrid").innerHTML =
 "<p>No se pudieron cargar las noticias.</p>"
 
 }
@@ -348,6 +339,7 @@ fetchNews()
 
 </body>
 </html>
+
 
 
 
