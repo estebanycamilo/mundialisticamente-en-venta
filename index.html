@@ -284,9 +284,11 @@ async function fetchNews(){
 
 try{
 
-const url="https://api.rss2json.com/v1/api.json?rss_url=https://www.espn.com/espn/rss/soccer/news"
+const rssUrl="https://news.google.com/rss/search?q=futbol&hl=es&gl=ES&ceid=ES:es"
 
-const res=await fetch(url)
+const api="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(rssUrl)
+
+const res=await fetch(api)
 const data=await res.json()
 
 const grid=document.getElementById("newsGrid")
@@ -297,17 +299,13 @@ data.items.slice(0,6).forEach(article=>{
 
 let img="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=60"
 
-if(article.thumbnail){
-img=article.thumbnail
-}
-
 const card=document.createElement("div")
 card.className="news-card"
 
 card.innerHTML=`
 <img src="${img}">
 <h3>${article.title}</h3>
-<p>${article.description.substring(0,120)}...</p>
+<p>${article.description.replace(/<[^>]*>?/gm,'').substring(0,120)}...</p>
 <a href="${article.link}" target="_blank">Leer noticia completa</a>
 `
 
@@ -318,7 +316,7 @@ grid.appendChild(card)
 }catch(e){
 
 document.getElementById("newsGrid").innerHTML=
-"<p>No se pudieron cargar las noticias de ESPN.</p>"
+"<p>No se pudieron cargar las noticias.</p>"
 
 }
 
@@ -342,6 +340,7 @@ fetchNews()
 
 </body>
 </html>
+
 
 
 
