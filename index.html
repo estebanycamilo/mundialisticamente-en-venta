@@ -90,6 +90,7 @@ footer{text-align:center;padding:30px;background:#020617;color:#aaa;margin-top:5
 </footer>
 
 <script>
+
 const products=[
 {name:'Balón Profesional',price:40,img:'https://images.unsplash.com/photo-1575361204480-aadea25e6e68'},
 {name:'Botines Elite',price:120,img:'https://images.unsplash.com/photo-1517649763962-0c623066013b'},
@@ -98,11 +99,36 @@ const products=[
 {name:'Espinilleras',price:25,img:'https://images.unsplash.com/photo-1521417531039-15c8a8c2c7d5'}
 ]
 
-// Noticias automáticas desde ESPN RSS
+let cart=[]
+
+function renderProducts(){
+const grid=document.getElementById('productGrid')
+
+products.forEach((p,i)=>{
+
+const card=document.createElement('div')
+card.className='card'
+
+card.innerHTML=`
+<img src="${p.img}">
+<h3>${p.name}</h3>
+<p>$${p.price}</p>
+<button onclick="addToCart(${i})">Agregar</button>
+`
+
+grid.appendChild(card)
+
+})
+}
+
+
+// NOTICIAS AUTOMÁTICAS
 async function fetchNews(){
+
 const url="https://api.rss2json.com/v1/api.json?rss_url=https://www.espn.com/espn/rss/soccer/news";
 
 try{
+
 const res = await fetch(url);
 const data = await res.json();
 
@@ -110,6 +136,7 @@ const grid=document.getElementById('newsGrid');
 grid.innerHTML='';
 
 (data.items || []).slice(0,8).forEach(article=>{
+
 const card=document.createElement('div');
 card.className='news-card';
 
@@ -124,23 +151,15 @@ card.innerHTML=`
 `;
 
 grid.appendChild(card);
+
 });
 
 }catch(err){
 console.error("Error cargando noticias",err);
 }
+
 }
 
-renderProducts();
-fetchNews(){
-const grid=document.getElementById('newsGrid')
-news.forEach(n=>{
-const card=document.createElement('div')
-card.className='news-card'
-card.innerHTML=`<h3>${n.title}</h3><p>${n.text}</p>`
-grid.appendChild(card)
-})
-}
 
 function addToCart(i){
 cart.push(products[i])
@@ -148,19 +167,29 @@ updateCart()
 }
 
 function updateCart(){
+
 const items=document.getElementById('cartItems')
 const count=document.getElementById('cartCount')
+
 items.innerHTML=''
 let total=0
+
 cart.forEach(p=>{
+
 const div=document.createElement('div')
 div.className='cart-item'
+
 div.innerHTML=`<span>${p.name}</span><span>$${p.price}</span>`
+
 items.appendChild(div)
- total+=p.price
+
+total+=p.price
+
 })
+
 count.textContent=cart.length
- document.getElementById('total').textContent='Total: $'+total
+document.getElementById('total').textContent='Total: $'+total
+
 }
 
 function toggleCart(){
@@ -183,8 +212,7 @@ alert('Mensaje enviado correctamente')
 }
 
 renderProducts()
-renderNews()
+fetchNews()
+
 </script>
 
-</body>
-</html>
