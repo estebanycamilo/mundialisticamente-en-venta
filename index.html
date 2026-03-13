@@ -284,36 +284,29 @@ async function fetchNews(){
 
 try{
 
-const rssUrl = "https://www.espn.com/espn/rss/soccer/news"
-const url = "https://api.allorigins.win/get?url=" + encodeURIComponent(rssUrl)
+const url="https://api.rss2json.com/v1/api.json?rss_url=https://www.espn.com/espn/rss/soccer/news"
 
-const res = await fetch(url)
-const data = await res.json()
+const res=await fetch(url)
+const data=await res.json()
 
-const parser = new DOMParser()
-const xml = parser.parseFromString(data.contents,"text/xml")
-
-const items = xml.querySelectorAll("item")
-
-const grid = document.getElementById("newsGrid")
+const grid=document.getElementById("newsGrid")
 grid.innerHTML=""
 
-items.forEach((item,index)=>{
+if(!data.items){
+grid.innerHTML="<p>No se pudieron cargar las noticias.</p>"
+return
+}
 
-if(index>5) return
+data.items.slice(0,6).forEach(article=>{
 
-const title = item.querySelector("title").textContent
-const link = item.querySelector("link").textContent
-const date = item.querySelector("pubDate").textContent
-
-const card = document.createElement("div")
+const card=document.createElement("div")
 card.className="news-card"
 
 card.innerHTML=`
-<img src="https://source.unsplash.com/800x600/?soccer">
-<h3>${title}</h3>
-<p>${date}</p>
-<a href="${link}" target="_blank">Leer noticia</a>
+<img src="https://source.unsplash.com/800x600/?soccer,football">
+<h3>${article.title}</h3>
+<p>${article.pubDate.substring(0,10)}</p>
+<a href="${article.link}" target="_blank">Leer noticia</a>
 `
 
 grid.appendChild(card)
@@ -323,7 +316,7 @@ grid.appendChild(card)
 }catch(e){
 
 document.getElementById("newsGrid").innerHTML=
-"<p>No se pudieron cargar las noticias ahora.</p>"
+"<p>Error cargando noticias.</p>"
 
 }
 
@@ -348,4 +341,5 @@ fetchNews()
 
 </body>
 </html>
+
 
