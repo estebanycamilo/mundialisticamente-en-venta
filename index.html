@@ -11,6 +11,8 @@
 <meta name="keywords" content="productos recomendados, tecnologia, gadgets, deportes, tendencias">
 <meta name="author" content="Mundialísticamente">
 <meta name="robots" content="index, follow">
+<meta name="googlebot" content="index,follow">
+<meta name="theme-color" content="#020617">
 
 <link rel="canonical" href="https://estebanycamilo.github.io/mundialisticamente-en-venta/">
 
@@ -457,7 +459,7 @@ async function fetchNews(){
 
 const API_KEY="pub_633372cd23894aec852d33f74e389d3d"
 
-const url=`https://newsdata.io/api/1/news?apikey=${API_KEY}&category=technology,sports&language=es`
+const url=`https://newsdata.io/api/1/news?apikey=${API_KEY}&q=tecnologia OR gadgets OR deportes&language=es`
 
 try{
 
